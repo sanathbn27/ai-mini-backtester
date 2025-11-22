@@ -7,7 +7,7 @@ TEST_PATH = "data/generated_parquet"
 
 def test_load_field_success():
     loader = DataLoader(TEST_PATH)
-    df = loader.load_field("market_capitalization")  # should exist
+    df = loader._load_field("market_capitalization")  # should exist
     assert isinstance(df, pd.DataFrame)
     assert len(df.columns) == 1000  # securities
     assert len(df.index) > 0        # dates
@@ -15,14 +15,14 @@ def test_load_field_success():
 def test_load_field_missing():
     loader = DataLoader(TEST_PATH)
     try:
-        loader.load_field("does_not_exist")
+        loader._load_field("does_not_exist")
         assert False, "Expected FileNotFoundError"
     except FileNotFoundError:
         assert True
 
 def test_get_row_for_date_success():
     loader = DataLoader(TEST_PATH)
-    df = loader.load_field("prices")
+    df = loader._load_field("prices")
     sample_date = df.index[0]  # first available date
     row = loader.get_row_for_date("prices", sample_date)
     assert isinstance(row, pd.Series)
@@ -38,8 +38,8 @@ def test_get_row_missing_date():
 
 def test_cache_usage():
     loader = DataLoader(TEST_PATH)
-    df1 = loader.load_field("volume")
-    df2 = loader.load_field("volume")
+    df1 = loader._load_field("volume")
+    df2 = loader._load_field("volume")
     assert df1 is df2  # same object due to cache
 
 def test_date_out_of_range():
