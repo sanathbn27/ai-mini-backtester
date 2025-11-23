@@ -6,4 +6,3 @@ pyarrow
 pydantic
 pytest
 httpx
-ollama

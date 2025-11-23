@@ -92,7 +92,7 @@ def test_backtest_date_not_in_dataset():
     assert "outside dataset range" in resp.json()["detail"]
 
 
-# 4. Boundary Tests
+# Boundary Tests
 def test_backtest_initial_date_min_allowed():
     payload = valid_payload()
     payload["calendar_rules"]["initial_date"] = "2020-01-01"

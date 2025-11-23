@@ -39,8 +39,6 @@ class BacktestRequest(BaseModel):
     calendar_rules: QuarterlyCalendar
     portfolio_creation: TopNFilter
     weighting: EqualWeighting
-    # # dataset_identifier: optional override (path under data/parquet)
-    # dataset_path: str = os.path.join("data", "generated_parquet")
 
 
 # Response model (informal - not strictly required by FastAPI for serialization)

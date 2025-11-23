@@ -10,5 +10,4 @@ dependencies:
       - pydantic
       - pytest
       - httpx
-      - ollama
       - numpy
