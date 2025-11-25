@@ -122,6 +122,7 @@ Example Response:
 ## Prompt Based Backtest Endpoint
 
 POST /api/backtest-prompt
+
 This endpoint runs the same backtest engine but adds a Natural Language Understanding (NLU)/ LLM layer:
 
 
@@ -171,6 +172,7 @@ If the LLM parsing fails validation, a controlled error is returned.
 # 5. Validating endpoints
 
 - Test deterministic endpoint:
+
 In Git Bash:
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/backtest-prompt" -H "Content-Type: application/json" -d "{\"prompt\": \"Run a backtest starting from 2023-01-01 with top 10 by volume\"}"
@@ -204,6 +206,24 @@ If LLM cannot be reached, output will still be valid, regex takes over.
 
 ---
 
-# Finished 
+# 7. Finished
 Your Docker environment is ready.
+
+You can now open Swagger API docs in your browser at:
+
+    http://127.0.0.1:8000/docs
+
+From there, you can run and verify both endpoints:
+1. **/api/backtest** — structured JSON backtest  
+2. **/api/backtest-prompt** — natural-language prompt backtest (LLM or regex)
+ 
+## Output will be structured json 
+
+- An execution_time_seconds field indicating how long the backtest took for the mentioned **data_field**.
+
+- A weights dictionary showing equal-weighted portfolio allocations for each quarterly dates starting from the mentioned **date**.
+
+- For each quarter (e.g., "2020-03-31", "2020-06-30"), the system assigns **1/N** equal weights to the **Top-N** selected securities.
+
+- These weights correspond to the securities chosen by the strategy using the provided input parameters (structured JSON) or extracted parameters (LLM/regex).
 
