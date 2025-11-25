@@ -13,7 +13,7 @@ LLM_SYSTEM_PROMPT = """
 You are a strict JSON extractor. Given a short natural language request
 about a backtest, return ONLY a JSON object with any of the following keys if present:
 - "initial_date" (format YYYY-MM-DD)
-- "n" (integer, number of securities)
+- "n" (positive integer, number of securities)
 - "data_field" (one of: market_capitalization, prices, volume, adtv_3_month):
 data field can be encoded using common synonyms, e.g., "market cap" means "market_capitalization".
 In the same way "price" means "prices", "vol" or "volume" means "volume", and "adtv" or
@@ -24,7 +24,10 @@ Rules:
    "Please enter a valid backtest query."
 2. Do NOT invent values for missing fields. Simply omit missing keys. stricktly no defaults.
 3. Only output either a JSON object (if any fields found) OR the above string.
-4. Do NOT include any other text, explanation, or markdown.
+4. Do NOT include any other text, explanation or markdown.
+5. "n": extract the exact integer mentioned after phrases like "top N", "top 50", "top -10", etc.
+    * If the user explicitly mentions a negative number (e.g., "top -10"), keep it negative.
+    * If no number is mentioned, omit this field (do NOT invent).
 Example JSON output:
 {"initial_date":"2023-01-01","n":50,"data_field":"volume"}
 Example invalid input output:
