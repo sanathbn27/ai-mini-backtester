@@ -8,7 +8,7 @@ Download and install Ollama from the official website:
 
  https://ollama.com/download
 
-Supported OS: macOS, Linux, Windows (WSL & native Windows support)
+Supported OS: macOS, Linux, Windows (WSL & native Windows support).
 This guide assumes **Windows 11** as supported OS
 
 ## 2. Open the terminal 
@@ -16,7 +16,7 @@ This guide assumes **Windows 11** as supported OS
 ### Windows:
 
 Open PowerShell
-Press: Win + X → Windows PowerShell
+Press: Win + X → Windows PowerShell (cant see)
 
 ### Mac:
 
@@ -71,22 +71,24 @@ You can check the HTTP API:
 curl http://127.0.0.1:11434/api/tags
 ```
 
-You should get a JSON response that looks like:
-```json
-{"models": [{"name":"llama3:8b", ...}]}
+You should get a response that looks like:
+```bash
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"models": [{"name":"llama3:8b", ...}]}
 ```
 
 ## 5. Run the model manually (test it) - Important
 
 You can try chatting with the model:
-In Powershell:
+- In Powershell:
 ```bash
 ollama run llama3:8b
 ```
 
-Type anything to ensure the model works.
+- Type anything to ensure the model works.
 
-Exit with:
+- Exit with:
 ```bash
 /bye
 ```
@@ -96,36 +98,33 @@ Exit with:
 The application calls Ollama via HTTP, so ensure this works:
 In Powershell/Terminal:
 ```bash
-curl -X POST http://127.0.0.1:11434/api/generate \
-    -d '{"model":"llama3:8b", "prompt":"hello"}'
+Invoke-WebRequest -Method POST http://127.0.0.1:11434/api/generate -Headers @{ "Content-Type" = "application/json" } -Body '{ "model": "llama3:8b", "prompt": "hello world", "stream": false }'
+
 ```
 
 Expected Output:
-```json
+```bash
 {
-  "models": [
-    {
-      "name": "llama3:8b",
-      "size": 4661224676
-    }
-  ]
+StatusCode        : 200
+StatusDescription : OK
+Content           :  "models": [{"name": "llama3:8b", "created_at": "2025-11-25", ...  } ]
 }
 ```
 
-You should get a JSON response - API Running properly
+You should get a response - API Running properly
 
 ## 7. Test the LLM API With a Prompt (critical)
 
-In Powershell run:
+In Git Bash (Type in search bar) and run:
 ```bash
-curl -X POST http://127.0.0.1:11434/api/generate `
-  -H "Content-Type: application/json" `
-  -d "{\"model\":\"llama3:8b\",\"prompt\":\"hello world\"}"
+curl -X POST http://127.0.0.1:11434/api/generate -H "Content-Type: application/json" -d '{"model":"llama3:8b","prompt":"Hello world","stream":false}'
 ```
 
 Expected output:
-```json
-{"model":"llama3:8b","response":"Hello! ..."}
+```bash
+{
+model":"llama3:8b","created_at":"2025-11-25T18:34:27.5289313Z","response":"Hello there! Nice to meet you! 
+}
 ```
 If this works → your LLM is fully operational.
 
