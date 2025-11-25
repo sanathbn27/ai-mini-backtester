@@ -1,10 +1,21 @@
+# ------------ Base Image (Python 3.11) ------------
 FROM python:3.11-slim
 
+ENV PYTHONUNBUFFERED=1
+
+# ------------ Work directory ------------
 WORKDIR /app
 
+# ------------ Install dependencies ------------
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# ------------ Copy project ------------
+COPY app ./app
+COPY data ./data
 
+# ------------ Expose FastAPI ------------
+EXPOSE 8000
+
+# ------------ Run server ------------
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

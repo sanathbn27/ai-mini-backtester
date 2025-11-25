@@ -21,7 +21,7 @@ The application was divided into clear layers:
 
 - tests → to verify everything working
 
-main.py → FastAPI routing & initialization
+- main.py → FastAPI routing & initialization
 
 This ensures independent development, testing and extension.
 
@@ -29,19 +29,19 @@ This ensures independent development, testing and extension.
 
 The backtest engine was designed to support future growth:
 
-Calendar rules are modeled using discriminated unions (rule_type)
+- Calendar rules are modeled using discriminated unions (rule_type)
 
-Portfolio filters use extensible filters (filter_type)
+- Portfolio filters use extensible filters (filter_type)
 
-Weighting schemes use their own base schema (weighting_type)
+- Weighting schemes use their own base schema (weighting_type)
 
-Adding new methods involves:
+- Adding new methods involves:
 
-Creating new Pydantic subclass
+- Creating new Pydantic subclass
 
-Adding it to the Union
+- Adding it to the Union
 
-Implementing algorithm in service layer
+- Implementing algorithm in service layer
 
 This demonstrates production-level extensibility.
 
@@ -51,9 +51,9 @@ This demonstrates production-level extensibility.
 The dataset is loaded once at application startup to avoid repeated expensive I/O.
 This matches how real-world portfolio engines operate.
 
-### 3.2 Using class attribute / app state (change)
+### 3.2 Dataset loading stratergy 
 
-Instead of a global variable, the dataset loader uses FastAPI’s app.state, which is thread-safe and scalable.
+Use of module level cache loader providing simple and efficient dataset shared accross the application
 
 ## 4. Backtest Logic Decisions
 ### 4.1 Vectorized Pandas operations
@@ -105,26 +105,24 @@ A deterministic fallback layer exists to:
 
 Well-known issue in hybrid NLP systems:
 
-Modern LLMs interpret even loosely related text as valid input.
+- Modern LLMs interpret even loosely related text as valid input.
+- Because Llama3 is highly capable, it successfully extracts information even from vague prompts (e.g., “top 30 prices”) LLM still infers { "n": 30, "data_field": "prices" }.
+- Therefore, regex fallback rarely activates.
+- This is expected, documented and mirrors real production assistants.
 
-Because Llama3 is highly capable, it successfully extracts information even from vague prompts (e.g., “top 30 prices”) LLM still infers { "n": 30, "data_field": "prices" }.
-
-Therefore, regex fallback rarely activates.
-
-This is expected, documented and mirrors real production assistants.
-
-When LLM returns a partial but valid response, default values are applied
-```json
+- When LLM returns a partial but valid response, default values are applied
+```bash
+{
 DEFAULTS = {
     "initial_date": "2020-01-01",
     "n": 10,
     "data_field": "market_capitalization",
     "filter_type": "TopN",
-    "weighting_type": "Equal",
+    "weighting_type": "Equal",}
 }
 ```
 
-When LLM truly cannot interpret the prompt (e.g., “I am going for running, would you want to join”), the fallback activates and the system returns a meaningful error.
+- When LLM truly cannot interpret the prompt (e.g., “I am going for running, would you want to join”), the fallback activates and the system returns a meaningful error.
 
 This is an intentional design decision.
 
@@ -145,19 +143,19 @@ Tests cover:
 
 ### 6.2 Prompt-based Testing 
 
-LLM pipeline tested separately in isolation
+- LLM pipeline tested separately in isolation
 
-Regex tested independently
+- Regex tested independently
 
-Full pipeline test ensures end-to-end correctness
+- Full pipeline test ensures end-to-end correctness
 
 ### 6.3 Test philosophy
 
-Use pytest.raises for validation errors
+- Use pytest.raises for validation errors
 
-Use httpx.AsyncClient for endpoint testing
+- Use httpx.AsyncClient for endpoint testing
 
-Build tests that demonstrate robustness, not happy-path only
+- Build tests that demonstrate robustness, not happy-path only
 
 ## 7. LLM Failure Handling
 ### 7.1 Why LLM sometimes fails first attempt
@@ -174,7 +172,7 @@ Ollama occasionally delays response while:
 
 This avoids confusion during interview evaluation. -->
 
-## 8. Docker (Not included yet)
+## 8. Docker 
 
 The project is structured for containerization, including environment variable support for:
 
