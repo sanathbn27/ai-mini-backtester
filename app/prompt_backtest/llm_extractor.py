@@ -8,7 +8,6 @@ import asyncio
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
 OLLAMA_API = f"{OLLAMA_HOST}/api/generate"
 
-# OLLAMA_API = "http://127.0.0.1:11434/api/generate"
 OLLAMA_MODEL = "llama3:8b"
 
 
