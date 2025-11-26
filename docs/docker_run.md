@@ -11,7 +11,27 @@ Therefore:
 > **Ollama cannot run inside the Docker container on Windows.**  
 > Instead, the LLM must run on the **host machine** and the Docker container will call it externally.
 
-LLM install instructions:  
+## Docker Installation
+
+Ensure Docker Desktop is installed and running
+
+This project uses Docker for containerizing the FastAPI backend.
+
+Before continuing:
+
+1. Install Docker Desktop (Windows/Mac)  
+   https://www.docker.com/products/docker-desktop/
+
+2. Launch Docker Desktop
+
+3. Confirm that Docker Engine is running:
+
+   ```bash
+   docker --version
+   docker info
+   ```
+
+## LLM install instructions:  
 
 Follow these steps to install, run, test and troubleshoot the LLM Ollama model.
 
@@ -22,7 +42,7 @@ Go to: **app/docs/LLM_setup.md**
 # 1. Pre-requisites
 
 Before building Docker:
-
+### Running Docker Desktop
 ### Install Ollama on host  
 ### Pull llama3:8b  
 ### Ensure LLM API works  
@@ -43,6 +63,7 @@ This creates:
 The Docker container expects this folder to exist.
 
 ---
+
 
 # 2. Build Docker image
 
