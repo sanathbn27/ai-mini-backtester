@@ -113,7 +113,7 @@ This project supports **two ways** to run:
 **Backtest API works fully; LLM prompt API may fail sometimes and fallback to regex** 
 
 Follow detailed instructions to run the project using docker:  
-**docs/docker_run.md**
+Go to: **docs/docker_run.md**
 
 ---
 
@@ -124,6 +124,7 @@ Follow detailed instructions to run the project using docker:
 ### Generating Data (Parquet files)
 
 Before running the API, you must generate the synthetic time-series datasets used for backtesting:
+
 Go to the path where you cloned the project and run in the terminal:
 ```bash
 python data/data_generation.py
@@ -138,6 +139,7 @@ This command produces the following files in the data/generated_parquet/ directo
 ### Running the API (Local Development)
 
 Start the FastAPI server with auto-reload for local development:
+
 Go to the ai-mini-backtester folder path then
 ```bash
 uvicorn app.main:app --reload
@@ -148,6 +150,7 @@ The interactive Swagger documentation is available at: http://127.0.0.1:8000/doc
 ## 4. Standard Backtest Endpoint
 
 POST /api/backtest
+
 Runs a deterministic backtest using a structured JSON input defined by the underlying Pydantic models.
 Example Request:
 ```json
@@ -181,6 +184,7 @@ Example Response:
 ## 5. Prompt Based Backtest Endpoint
 
 POST /api/backtest-prompt
+
 This endpoint runs the same backtest engine but adds a Natural Language Understanding (NLU)/ LLM layer:
 
 - Accepts natural language
@@ -192,7 +196,7 @@ This endpoint runs the same backtest engine but adds a Natural Language Understa
 
 Follow these steps to install, run, test and troubleshoot the LLM Ollama model before testing.
 
-**docs/LLM_setup.md**
+Go to: **docs/LLM_setup.md**
 
 Example Request:
 ```json
@@ -246,8 +250,26 @@ Runs the entire parsing pipeline used inside the /api/backtest-prompt endpoint.
 python app/prompt_backtest/check_full_pipeline.py
 ```
 
+## Output Format
+You can now open Swagger API docs in your browser at:
 
-## 6. Running Tests
+    http://127.0.0.1:8000/docs
+
+From there, you can run and verify both endpoints as mentioned above:
+1. **/api/backtest** — structured JSON backtest  
+2. **/api/backtest-prompt** — natural-language prompt backtest (LLM or regex)
+ 
+### Output will be structured json 
+
+- An execution_time_seconds field indicating how long the backtest took for the mentioned **data_field**.
+
+- A weights dictionary showing equal-weighted portfolio allocations for each quarterly dates starting from the mentioned **date**.
+
+- For each quarter (e.g., "2020-03-31", "2020-06-30"), the system assigns **1/N** equal weights to the **Top-N** selected securities.
+
+- These weights correspond to the securities chosen by the strategy using the provided input parameters (structured JSON) or extracted parameters (LLM/regex).
+
+## 7. Running Tests
 
 The repository includes a comprehensive test suite using pytest.
 ```bash
@@ -262,7 +284,7 @@ The tests cover:
 - Standard backtest endpoint logic
 - Prompt-based endpoint flow
 
-## 7. Additional Files
+## 8. Additional Files
 
 | File | Description |
 |------|-------------|
