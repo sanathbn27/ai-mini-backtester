@@ -111,7 +111,7 @@ async def parse_prompt_to_request(prompt_text: str) -> Dict:
 
 async def run_prompt_backtest(prompt_text: str) -> Dict:
     """
-    High-level helper: parse the prompt, run the backtest engine, and return result.
+    High-level helper: parse the prompt, run the backtest engine and return result.
     """
     request = await parse_prompt_to_request(prompt_text)
     # We re-use the same run_backtest engine that /backtest uses

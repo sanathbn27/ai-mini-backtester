@@ -67,36 +67,16 @@ environment.yml
 README.md
 requirements.txt
 ```
-# 🔧 Installation Options
+# 🔧 Installation
 
-This project supports **two ways** to run:
-
----
-
-## OPTION A — Local Setup
-### Best for development  
-### Full LLM functionality  
-### Works on any Python 3.11 environment
-### Detail information of the project in this README.md file
-
-
-## OPTION B — Docker Setup  
-### Backtest API works fully; LLM prompt API may fail sometimes and fallback to regex
-
-Detailed instructions:  
-**docs/docker_run.md**
-
----
-
-## OPTION A - Local Setup
-
-### 1. Clone the repository
+## 1. Clone the repository
 
 ```bash
 git clone https://github.com/sanathbn27/ai-mini-backtester.git
 cd ai-mini-backtester
 ```
-### 2. Create Virtual Env
+
+## 2. Create Virtual Env
 
 **using env.yml**
 
@@ -115,10 +95,33 @@ conda create -n bita_env python=3.11
 conda activate bita_env
 pip install -r requirements.txt
 ```
+---
+# Local and Docker Options
+
+This project supports **two ways** to run:
+
+---
+
+## OPTION A — Local Setup
+**Best for development**   
+**Full LLM functionality**  
+**Works on any Python 3.11 environment**
+**Detail information of the project in this README.md file**
+
+
+## OPTION B — Docker Setup  
+**Backtest API works fully; LLM prompt API may fail sometimes and fallback to regex** 
+
+Follow detailed instructions to run the project using docker:  
+**docs/docker_run.md**
+
+---
+
+## OPTION A - Local Setup
 
 ## 3. How to set up
 
-### Genrating Data (Parquet files)
+### Generating Data (Parquet files)
 
 Before running the API, you must generate the synthetic time-series datasets used for backtesting:
 Go to the path where you cloned the project and run in the terminal:
@@ -188,6 +191,7 @@ This endpoint runs the same backtest engine but adds a Natural Language Understa
 - Bactest executed
 
 Follow these steps to install, run, test and troubleshoot the LLM Ollama model before testing.
+
 **docs/LLM_setup.md**
 
 Example Request:
@@ -213,6 +217,36 @@ The LLM may return incomplete output based on the user prompt; safe defaults are
 
 If the LLM parsing fails validation, a controlled error is returned.
 
+### Testing LLm, Regex and Full Pipeline (Standalone Scripts)
+
+To make debugging easier and to avoid testing inside the API manually,
+the project includes three dedicated testing scripts:
+
+- Test LLM Extractor Only
+
+Runs the LLM directly and prints the extracted JSON dictionary.
+
+```bash 
+python app/prompt_backtest/check_llm_extractor.py
+```
+
+- Test Regex Fallback Only
+
+Runs the regex-based parameter extractor without involving LLM.
+
+```bash
+python app/prompt_backtest/check_regex_fallback.py
+```
+
+- Test Full Backtest Prompt Pipeline
+
+Runs the entire parsing pipeline used inside the /api/backtest-prompt endpoint.
+
+```bash
+python app/prompt_backtest/check_full_pipeline.py
+```
+
+
 ## 6. Running Tests
 
 The repository includes a comprehensive test suite using pytest.
@@ -234,11 +268,11 @@ The tests cover:
 |------|-------------|
 | **llm_setup.md** | Full instructions for installing & configuring Ollama |
 | **docker_run.md** | Complete Docker guide + known issues + fallback behavior |
-| **decisions.md** | Architecture decisions, work flow, trade-offs, rejected approaches (check) |
+| **decisions.md** | Architecture decisions, work flow, trade-offs |
 
 # Final Notes
 
-- Code is modular, production-style, and extensible  
+- Code is modular, production-style and extensible  
 - Backtest engine is fully deterministic  
 - Prompt parser is resilient: LLM → patch → regex → defaults  
 - Docker available for easy deployment  

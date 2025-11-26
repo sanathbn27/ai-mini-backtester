@@ -1,4 +1,3 @@
-# app/nlu/prompts.py
 """
 System / instruction prompt used to ask the Ollama model to extract
 backtest parameters from a user's natural language prompt.
