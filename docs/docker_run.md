@@ -14,7 +14,8 @@ Therefore:
 LLM install instructions:  
 
 Follow these steps to install, run, test and troubleshoot the LLM Ollama model.
-**app/docs/LLM_setup.md**
+
+Go to: **app/docs/LLM_setup.md**
 
 ---
 
@@ -185,6 +186,7 @@ Invoke-WebRequest -Method POST http://127.0.0.1:11434/api/generate -Headers @{ "
 
 - Test prompt endpoint:
 
+In Git Bash:
 ```bash
 curl -X POST http://127.0.0.1:8000/api/backtest-prompt -H "Content-Type: application/json" -d '{"prompt":"top 10 volume"}'
 ```
